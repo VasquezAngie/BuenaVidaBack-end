@@ -1,0 +1,17 @@
+import { Request, Response } from 'express'
+import Casousoprueba from '../../../Domain/Port/Driver/Casousoprueba';
+import BuenaVidaControllerExpressInterface from '../../../domain/interfaces/BuenaVidaControllerExpressInterface'
+
+
+export default class BuenaVidaControllerExpress
+implements BuenaVidaControllerExpressInterface
+{
+    constructor(private readonly orderUseCase: Casousoprueba) {}
+
+    async addProduct(req: Request, res: Response): Promise<void> {
+        const order = this.orderUseCase.getOrder()
+
+        res.status(200).json(order)
+    }
+
+}

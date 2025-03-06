@@ -9,7 +9,7 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "types": ["node"],
-    "forceConsistentCasingInFilenombres": true,
+    "forceConsistentCasingInFileNames": true,
     
     /* Type Checking */
     "noImplicitAny": true,
