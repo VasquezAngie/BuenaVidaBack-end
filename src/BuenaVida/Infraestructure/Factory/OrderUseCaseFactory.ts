@@ -1,4 +1,4 @@
-import OrderRepository from '../../../repository/OrderRepository';
+import OrderRepository from '../db/OrderRepository';
 import OrderService from '../../Application/Service/OrderService'
 import OrderUseCase from '../../Application/UseCase/OrderUseCase'
 import OrderUseCasePort from '../../Domain/Port/Driver/OrderUseCasePort'

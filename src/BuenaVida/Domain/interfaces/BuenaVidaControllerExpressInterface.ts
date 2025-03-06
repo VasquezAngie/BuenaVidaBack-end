@@ -5,5 +5,5 @@ import ControllerExpressInterface from "../../../Express/domain/ControllerExpres
 
 export default interface BuenaVidaControllerExpressInterface
   extends ControllerExpressInterface {
-    addProduct(req: Request, res: Response): void
+    getOrderById(req: Request, res: Response): void
   }

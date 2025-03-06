@@ -1,6 +1,6 @@
 import RouterExpressInterface from "../../../Express/domain/RouterExpressInterface";
 
-export default interface BuenaVidaRouterExpressInterface
+export default interface OrderRouterExpressInterface
 extends RouterExpressInterface {
   getProducts(): void
 }

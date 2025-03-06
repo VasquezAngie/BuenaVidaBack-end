@@ -1,11 +1,27 @@
-import express from "express";
-import OrderUseCaseFactory from "../../Factory/OrderUseCaseFactory";
-import OrderControllerExpress from "../Controller/OrderControllerExpress";
+import { Router } from "express";
+import OrderRouterExpressInterface from "../../../Domain/interfaces/BuenaVidaRouteExpress";
+import BuenaVidaControllerExpressInterface from "../../../Domain/interfaces/BuenaVidaControllerExpressInterface";
 
-const router = express.Router();
-const orderController = new OrderControllerExpress(OrderUseCaseFactory.create());
+export default class OrderRouterExpress implements OrderRouterExpressInterface {
+    router: Router
+    path: string
+  
+    constructor(private readonly orderController: BuenaVidaControllerExpressInterface) {
+      this.router = Router()
+      this.path = '/BuenaVida'
+      this.routes()
+    }
 
-router.get("/orders", orderController.getAllOrders.bind(orderController));
-router.get("/orders/:id", orderController.getOrderById.bind(orderController));
+    public routes(): void {
+        this.getOrderById()
+    }
 
-export default router;
+    getProducts(): void {
+        throw new Error("Method not implemented.");
+    }
+  
+    public getOrderById(): void {
+        this.router.get('/vida/mona', this.orderController.getOrderById.bind(this.orderController))
+      }
+  
+  }

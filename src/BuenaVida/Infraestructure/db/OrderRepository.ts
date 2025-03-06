@@ -1,6 +1,6 @@
-import Order from "../BuenaVida/Domain/Order/Order";
-import OrderRepositoryPort from "../BuenaVida/Domain/Port/Driven/OrderRepositoryPort";
-import pool from "../BuenaVida/Infraestructure/db/conection";
+import Order from "../../Domain/Order/Order";
+import OrderRepositoryPort from "../../Domain/Port/Driven/OrderRepositoryPort";
+import pool from "./conection";
 
 
 export default class OrderRepository implements OrderRepositoryPort {
