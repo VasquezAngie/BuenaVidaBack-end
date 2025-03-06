@@ -20,6 +20,7 @@ export default abstract class AbstractOrder {
   }
   //Getters y setters
   public abstract isNull(): boolean;
+
   public getId(): number {
     return this.id;
   }

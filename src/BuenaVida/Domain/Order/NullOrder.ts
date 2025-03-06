@@ -7,7 +7,7 @@ export default class NullOrder extends AbstractOrder {
       usuarioId: 0,
       productos: [],
       total: 0,
-      estados: "Sin pedido",
+      estado: "Sin pedido",
       direccionEntrega: "no aplica",
       telefono: 0,
     });

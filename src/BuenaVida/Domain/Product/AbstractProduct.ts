@@ -40,4 +40,5 @@ export interface ProductInterface {
   categoria: string;
   image: string;
   descuento: number;
+  getPrecio: number;
 }
