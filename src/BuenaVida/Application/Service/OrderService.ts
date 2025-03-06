@@ -13,7 +13,7 @@ export default class OrderService {
     this.orderRepository = orderRepository;
   }
 
-  public async crearPedido(orderData: OrderInterface): Promise<OrderInterface> {
+  public async crearPedido(orderData: OrderInterface): Promise<Order> {
     //CORREGIR
     /*if (!orderData.productos || orderData.productos.length === 0) {
       return new NullOrder(); // Retorna una orden nula si no hay productos
@@ -37,7 +37,7 @@ export default class OrderService {
   //   return pedidoActualizado;
   // }
 
-  public async obtenerPedido(pedidoId: number): Promise<OrderInterface> {
+  public async obtenerPedido(pedidoId: number): Promise<Order> {
     const pedido = await this.orderRepository.getOrderById(pedidoId);
 
     if (!pedido) {
@@ -47,9 +47,7 @@ export default class OrderService {
     return pedido;
   }
 
-  public async listarPedidosUsuario(
-    usuarioId: number
-  ): Promise<OrderInterface[]> {
+  public async listarPedidosUsuario(usuarioId: number): Promise<OrderInterface[]> {
     const pedidos = await this.orderRepository.getOrderForUser(usuarioId);
     return pedidos | null;
   }

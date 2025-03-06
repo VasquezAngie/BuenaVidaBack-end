@@ -44,4 +44,8 @@ export default class OrderUseCases {
     this.order.setProductos(productos);
     this.calcularTotal();
   }
+
+  calcular
+  tio.traerproductos
+  geetprecio + {}
 }

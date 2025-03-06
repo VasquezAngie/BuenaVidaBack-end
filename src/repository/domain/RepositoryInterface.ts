@@ -17,4 +17,6 @@ export default interface RepositoryInterface<_E, T> {
     deleteOrder(id: number): Promise<void>
 
     getOrderForUser(id: number): Promise<T[] | null>
+
+    
   }

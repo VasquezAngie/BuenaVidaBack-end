@@ -3,4 +3,5 @@ import RouterExpressInterface from "../../../Express/domain/RouterExpressInterfa
 export default interface OrderRouterExpressInterface
 extends RouterExpressInterface {
   getProducts(): void
+  getOrderById(): void
 }
