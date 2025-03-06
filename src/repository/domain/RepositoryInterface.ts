@@ -6,7 +6,7 @@ export default interface RepositoryInterface<_E, T> {
     // patch: (id: E, item: Partial<T>) => Promise<T | boolean>
     // delete: (id: E) => Promise<boolean>
 
-    createOrder(order: T): Promise<number> 
+    createOrder(order: T): Promise<T> 
 
     getOrderById(id: number): Promise<T | null>
 

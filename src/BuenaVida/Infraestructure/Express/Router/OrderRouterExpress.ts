@@ -21,7 +21,7 @@ export default class OrderRouterExpress implements OrderRouterExpressInterface {
     }
   
     public getOrderById(): void {
-        this.router.get('/vida/mona', this.orderController.getOrderById.bind(this.orderController))
+        //this.router.get('/vida/mona', this.orderController.getOrderById.bind(this.orderController))
       }
   
   }

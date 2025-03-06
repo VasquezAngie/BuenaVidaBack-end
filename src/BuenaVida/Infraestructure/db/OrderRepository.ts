@@ -1,3 +1,4 @@
+import { OrderInterface } from "../../Domain/Order/AbstractOrder";
 import Order from "../../Domain/Order/Order";
 import OrderRepositoryPort from "../../Domain/Port/Driven/OrderRepositoryPort";
 import pool from "./conection";
@@ -10,14 +11,20 @@ export default class OrderRepository implements OrderRepositoryPort {
         try {
             const [rows] = await connection.execute(`SELECT * FROM pedidos WHERE idPedido = ?`, [id]);
             connection.release();
-            return (rows as Order[]) || null;
+            const objetos = (rows as OrderInterface[]) || null;
+
+            const noloentiendo = objetos.map(objeto => { 
+                return new Order(objeto)
+            })
+
+            return noloentiendo;
         } catch (error) {
             connection.release();
             throw error;
         }
     }
     
-    async createOrder(order: Order): Promise<number> {
+    async createOrder(order: Order): Promise<OrderInterface> {
         const connection = await pool.getConnection();
         try {
             const [result] = await connection.execute(

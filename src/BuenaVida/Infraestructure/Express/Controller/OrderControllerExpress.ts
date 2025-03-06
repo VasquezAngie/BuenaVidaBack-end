@@ -18,13 +18,16 @@ export default class OrderControllerExpress {
       const orderId = Number(req.params.id);
       
       if (isNaN(orderId)) {
-        return res.status(400).json({ error: "ID de orden inválido" });
+        
+        res.status(400).json({ error: "ID de orden inválido" });
+        return 
       }
   
       const order = await this.orderUseCase.obtenerPorId(orderId);
       
       if (!order) {
-        return res.status(404).json({ error: "Orden no encontrada" });
+        res.status(404).json({ error: "Orden no encontrada" });
+        return
       }
   
       res.json(order);

@@ -3,8 +3,10 @@ export default abstract class AbstractProduct {
   protected nombre: string;
   protected descripcion: string;
   protected precio: number;
+  protected stock: number;
   protected categoria: string;
   protected image: string;
+  protected enPromocion: number;
   protected descuento: number;
 
   constructor(productoInterface: ProductInterface) {
@@ -12,8 +14,10 @@ export default abstract class AbstractProduct {
     this.nombre = productoInterface.nombre;
     this.descripcion = productoInterface.descripcion;
     this.precio = productoInterface.precio;
+    this.stock = productoInterface.stock;
     this.categoria = productoInterface.categoria;
     this.image = productoInterface.image;
+    this.enPromocion = productoInterface.enPromocion;
     this.descuento = productoInterface.descuento;
   }
 
@@ -23,8 +27,10 @@ export default abstract class AbstractProduct {
   public getnombre = (): string => this.nombre;
   public getdescripcion = (): string => this.descripcion;
   public getprecio = (): number => this.precio;
+  public getstock = (): number => this.stock;
   public getcategoria = (): string => this.categoria;
   public getImage = (): string => this.image;
+  public getenpromocion = (): number => this.enPromocion;
   protected aplicarDescuento() {
     if (this.descuento > 0) {
       this.precio = this.precio * (1 - this.descuento / 100);
@@ -37,8 +43,9 @@ export interface ProductInterface {
   nombre: string;
   descripcion: string;
   precio: number;
+  stock: number;
   categoria: string;
   image: string;
   descuento: number;
-  getPrecio: number;
+  enPromocion: number;
 }
