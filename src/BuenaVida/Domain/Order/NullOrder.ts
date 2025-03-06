@@ -10,6 +10,9 @@ export default class NullOrder extends AbstractOrder {
       estado: "Sin pedido",
       direccionEntrega: "no aplica",
       telefono: 0,
+      getId() {
+          return this.id;
+      },
     });
   }
 

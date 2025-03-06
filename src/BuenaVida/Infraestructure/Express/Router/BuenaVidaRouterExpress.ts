@@ -16,8 +16,5 @@ export default class BuenaVidaRouterExpress implements BuenaVidaRouterExpressInt
     this.getProducts()
   }
 
-  public getProducts(): void {
-    this.router.get('/catalogo', this.BuenaVidaController.getProducts.bind(this.BuenaVidaController))
-  }
 
 }

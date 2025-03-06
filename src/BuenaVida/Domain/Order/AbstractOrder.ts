@@ -73,4 +73,5 @@ export interface OrderInterface {
   estado: string;
   direccionEntrega: string;
   telefono: number;
+  getId(): number;
 }
