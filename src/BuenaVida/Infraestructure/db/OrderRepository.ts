@@ -6,8 +6,24 @@ import pool from "./conection";
 
 export default class OrderRepository implements OrderRepositoryPort {
     
-    getTotal(id: number): Promise<number> {
-        throw new Error("Method not implemented.");
+    async getTotal(id: number): Promise<number> {
+        const connection = await pool.getConnection();
+        try {
+            const [rows]: any = await connection.execute(
+                `SELECT total FROM pedidos WHERE idPedido = ?`,
+                [id]
+            );
+            connection.release();
+    
+            if (rows.length === 0) {
+                throw new Error("Pedido no encontrado");
+            }
+    
+            return rows[0].total;
+        } catch (error) {
+            connection.release();
+            throw error;
+        }  
     }
 
     async getState(id: number): Promise<string> {
@@ -113,18 +129,6 @@ export default class OrderRepository implements OrderRepositoryPort {
             connection.release();
             throw error;
         }
-        // const connection = await pool.getConnection();
-        // try {
-        //     const [rows]: any = await connection.execute(
-        //         `SELECT * FROM pedidos WHERE idUsuario = ?`,
-        //         [userId]
-        //     );
-        //     connection.release();
-        //     return rows.length > 0 ? rows.map((obj: any) => new Order(obj)) : null;
-        // } catch (error) {
-        //     connection.release();
-        //     throw error;
-        // }
     }
 
     async getAllOrders(): Promise<Order[]> {

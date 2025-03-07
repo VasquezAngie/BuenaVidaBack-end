@@ -1,6 +1,5 @@
 import { OrderInterface } from '../../Order/AbstractOrder';
 import Order from '../../Order/Order';
-import { ProductInterface } from '../../Product/AbstractProduct';
 
 export default interface OrderUseCasePort {
     

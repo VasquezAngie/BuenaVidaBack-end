@@ -1,4 +1,4 @@
-import OrderFactory from "./BuenaVida/Infraestructure/Factory/OrderFactory";
+import OrderFactory from "./BuenaVida/Infraestructure/Factory/Order/OrderFactory";
 import ServerFactory from "./Express/infrastructure/factory/ServerFactory"
 
 console.log("Index?");

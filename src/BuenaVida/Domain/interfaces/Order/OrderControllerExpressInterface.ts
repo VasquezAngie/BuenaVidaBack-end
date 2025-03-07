@@ -1,7 +1,9 @@
 import ControllerExpressInterface from "../../../../Express/domain/ControllerExpressInterface"
+import { Request, Response } from "express";
 
 export default interface OrderControllerExpressInterface
   extends ControllerExpressInterface {
-    creat(req: Request, res: Response): void
-    getMovieById(req: Request, res: Response): void
+    getPedidos(req: Request, res: Response): void
+    getPedidoById(req: Request, res: Response): void
+    getMovieByUser(req: Request, res: Response): void
   }

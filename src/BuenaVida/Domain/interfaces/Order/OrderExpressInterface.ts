@@ -2,5 +2,5 @@ import RouterExpressInterface from "../../../../Express/domain/RouterExpressInte
 
 export default interface OrderRouterExpressInterface
   extends RouterExpressInterface {
-    getMovies(): void
+    initializeRoutes(): void
   }
