@@ -1,5 +1,5 @@
 import { Router } from "express";
 
-export interface UserRouterExpressInterface {
+export default interface RouterExpressInterface {
   getRouter(): Router;
 }

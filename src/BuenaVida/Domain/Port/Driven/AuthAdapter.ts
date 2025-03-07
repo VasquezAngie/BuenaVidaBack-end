@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { Response } from "express";
-import { AuthPort } from "../../Port/Driver/AuthPort";
+import { AuthPort } from "../../Order/AuthPort";
 import AuthRepository from "../../../Infraestructure/db/AuthRepository";
 
 export class AuthAdapter implements AuthPort {

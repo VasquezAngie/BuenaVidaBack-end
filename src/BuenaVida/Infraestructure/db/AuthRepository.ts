@@ -96,4 +96,27 @@ export default class AuthRepository {
       throw error;
     }
   }
+
+  async getUserByEmail(
+    email: string
+  ): Promise<{ id: number; password: string } | null> {
+    const connection = await pool.getConnection();
+    try {
+      const [rows] = await connection.execute(
+        `SELECT id, contraseña FROM users WHERE email = ?`,
+        [email]
+      );
+      connection.release();
+
+      if (!Array.isArray(rows) || rows.length === 0) {
+        return null;
+      }
+
+      const user = rows[0] as { id: number; password: string };
+      return user;
+    } catch (error) {
+      connection.release();
+      throw error;
+    }
+  }
 }

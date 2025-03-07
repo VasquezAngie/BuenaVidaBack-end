@@ -1,49 +1,107 @@
 import { Request, Response } from "express";
-import { UserControllerExpressInterface } from "../../../Domain/interfaces/UserControllerExpressInterface";
-import UserUseCasePort from "../../../Application/UseCase/UserUseCase";
+import UserControllerExpressInterface from "../../../Domain/interfaces/UserControllerExpressInterface";
+import UserUseCase from "../../../Application/UseCase/UserUseCase";
 
-export class UserControllerExpress implements UserControllerExpressInterface {
-  private userUseCase: UserUseCasePort;
+export default class UserControllerExpress
+  implements UserControllerExpressInterface
+{
+  private userUseCase: UserUseCase;
 
-  constructor(userUseCase: UserUseCasePort) {
+  constructor(userUseCase: UserUseCase) {
     this.userUseCase = userUseCase;
   }
 
-  async createUser(req: Request, res: Response): Promise<Response> {
-    const { id, nombre, apellidos, email, password } = req.body;
+  async iniciarSesion(req: Request, res: Response): Promise<void> {
     try {
-      const result = await this.userUseCase.crearUsuario(
+      const { email, contraseña } = req.body;
+      const usuario = await this.userUseCase.iniciarSesion(email, contraseña);
+
+      if (usuario) {
+        res.status(200).json({ mensaje: "Inicio de sesión exitoso", usuario });
+      } else {
+        res.status(401).json({ error: "Credenciales incorrectas" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Error interno del servidor" });
+    }
+  }
+
+  async registrarUsuario(req: Request, res: Response): Promise<void> {
+    try {
+      const { id, nombre, apellidos, email, contraseña } = req.body;
+
+      const resultado = await this.userUseCase.crearUsuario(
         id,
         nombre,
         apellidos,
         email,
-        password
+        contraseña
       );
-      return res.status(201).json(result);
+
+      if (resultado) {
+        res.status(201).json({ mensaje: "Usuario registrado con éxito" });
+      } else {
+        res.status(400).json({ error: "No se pudo registrar el usuario" });
+      }
     } catch (error) {
-      return res.status(500).json({ message: "Error creating user" });
+      res.status(500).json({ error: "Error interno del servidor" });
     }
   }
 
-  async loginUser(req: Request, res: Response): Promise<Response> {
-    const { email, password } = req.body;
+  async actualizarUsuario(req: Request, res: Response): Promise<void> {
     try {
-      const token = await this.userUseCase.iniciarSesion(email, password);
-      if (!token)
-        return res.status(401).json({ message: "Invalid credentials" });
-      res.cookie("auth_token", token.token, { httpOnly: true });
-      return res.status(200).json({ message: "Login successful" });
+      const idParam = req.params.id;
+      if (!idParam) {
+        res.status(400).json({ error: "ID de usuario no proporcionado" });
+        return;
+      }
+
+      const id = parseInt(idParam, 10);
+      if (isNaN(id) || id <= 0) {
+        res.status(400).json({ error: "ID de usuario inválido" });
+        return;
+      }
+
+      const { email, contraseña } = req.body;
+      const actualizado = await this.userUseCase.actualizarUsuario(
+        id,
+        email,
+        contraseña
+      );
+
+      if (actualizado) {
+        res.status(200).json({ mensaje: "Usuario actualizado correctamente" });
+      } else {
+        res.status(400).json({ error: "No se pudo actualizar el usuario" });
+      }
     } catch (error) {
-      return res.status(500).json({ message: "Error logging in" });
+      res.status(500).json({ error: "Error interno del servidor" });
     }
   }
 
-  async logoutUser(_req: Request, res: Response): Promise<Response> {
+  async eliminarUsuario(req: Request, res: Response): Promise<void> {
     try {
-      res.clearCookie("auth_token");
-      return res.status(200).json({ message: "Logout successful" });
+      const idParam = req.params.id;
+      if (!idParam) {
+        res.status(400).json({ error: "ID de usuario no proporcionado" });
+        return;
+      }
+
+      const id = parseInt(idParam, 10);
+      if (isNaN(id) || id <= 0) {
+        res.status(400).json({ error: "ID de usuario inválido" });
+        return;
+      }
+
+      const eliminado = await this.userUseCase.eliminarUsuario(id);
+
+      if (eliminado) {
+        res.status(200).json({ mensaje: "Usuario eliminado correctamente" });
+      } else {
+        res.status(400).json({ error: "No se pudo eliminar el usuario" });
+      }
     } catch (error) {
-      return res.status(500).json({ message: "Error logging out" });
+      res.status(500).json({ error: "Error interno del servidor" });
     }
   }
 }

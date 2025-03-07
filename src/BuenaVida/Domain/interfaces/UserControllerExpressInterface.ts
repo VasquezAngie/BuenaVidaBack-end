@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 
-export interface UserControllerExpressInterface {
-  createUser(req: Request, res: Response): Promise<Response>;
-  loginUser(req: Request, res: Response): Promise<Response>;
-  logoutUser(req: Request, res: Response): Promise<Response>;
+export default interface UserControllerExpressInterface {
+  iniciarSesion(req: Request, res: Response): Promise<void>;
+  registrarUsuario(req: Request, res: Response): Promise<void>;
+  actualizarUsuario(req: Request, res: Response): Promise<void>;
+  eliminarUsuario(req: Request, res: Response): Promise<void>;
 }

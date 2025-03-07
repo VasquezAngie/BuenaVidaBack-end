@@ -1,32 +1,33 @@
-import { Router, Request, Response } from "express";
-import { UserRouterExpressInterface } from "../../../Domain/interfaces/UserRouterExpressInterface";
-import { UserControllerExpressInterface } from "../../../Domain/interfaces/UserControllerExpressInterface";
+import { Router } from "express";
+import UserRouterExpressInterface from "../../../Domain/interfaces/UserRouterExpressInterface";
+import UserControllerExpress from "../Controller/UserControllerExpress";
 
-export class UserRouterExpress implements UserRouterExpressInterface {
+export default class UserRouterExpress implements UserRouterExpressInterface {
   private router: Router;
-  private userController: UserControllerExpressInterface;
+  private userController: UserControllerExpress;
 
-  constructor(userController: UserControllerExpressInterface) {
+  constructor(userController: UserControllerExpress) {
     this.router = Router();
     this.userController = userController;
-    this.setupRoutes();
+    this.initializeRoutes();
   }
 
-  private setupRoutes(): void {
-    this.router.post("/register", async (req: Request, res: Response) => {
-      await this.userController.createUser(req, res);
-    });
-
-    this.router.post("/login", async (req: Request, res: Response) => {
-      await this.userController.loginUser(req, res);
-    });
-
-    this.router.post("/logout", async (req: Request, res: Response) => {
-      await this.userController.logoutUser(req, res);
-    });
+  private initializeRoutes(): void {
+    this.router.post("/iniciarSesion", (req, res) =>
+      this.userController.iniciarSesion(req, res)
+    );
+    this.router.post("/registrar", (req, res) =>
+      this.userController.registrarUsuario(req, res)
+    );
+    this.router.put("/actualizar/:id", (req, res) =>
+      this.userController.actualizarUsuario(req, res)
+    );
+    this.router.delete("/eliminar/:id", (req, res) =>
+      this.userController.eliminarUsuario(req, res)
+    );
   }
 
-  getRouter(): Router {
+  public getRouter(): Router {
     return this.router;
   }
 }

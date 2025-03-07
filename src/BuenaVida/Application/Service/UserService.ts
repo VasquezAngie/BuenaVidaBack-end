@@ -1,22 +1,22 @@
+import UserServiceInterface from "../../Domain/interfaces/UserServiceInterface";
 import AuthRepository from "../../Infraestructure/db/AuthRepository";
-import UserUseCasePort from "../UseCase/UserUseCase";
-import jwt from "jsonwebtoken";
+import UserInterface from "../../Domain/Usuario/AbstractUser";
 
-export default class UserService implements UserUseCasePort {
+export default class UserService implements UserServiceInterface {
   private authRepository: AuthRepository;
 
   constructor() {
     this.authRepository = new AuthRepository();
   }
 
-  async crearUsuario(
-    id: number,
-    nombre: string,
-    apellidos: string,
-    email: string,
-    password: string
-  ): Promise<boolean> {
+  async registrarUsuario(usuario: UserInterface): Promise<boolean> {
     try {
+      const id = usuario.getId();
+      const nombre = usuario.getnombre();
+      const apellidos = usuario.getApellidos();
+      const email = usuario.getEmail();
+      const password = usuario.getcontraseña();
+
       await this.authRepository.registerUser(
         id,
         nombre,
@@ -42,23 +42,9 @@ export default class UserService implements UserUseCasePort {
     return await this.authRepository.deleteUser(id);
   }
 
-  async iniciarSesion(
-    email: string,
-    password: string
-  ): Promise<{ token: string } | null> {
-    const user = await this.authRepository.verifyCredentials(email, password);
-
-    if (!user) {
-      return null; // Credenciales inválidas
-    }
-
-    // Generar token JWT
-    const token = jwt.sign({ id: user.id }, "secret_key", { expiresIn: "1h" });
-
-    return { token };
-  }
-
-  async cerrarSesion(userId: string): Promise<void> {
-    console.log(`Usuario ${userId} ha cerrado sesión`);
+  async obtenerCredenciales(
+    email: string
+  ): Promise<{ id: number; password: string } | null> {
+    return await this.authRepository.getUserByEmail(email);
   }
 }
