@@ -1,61 +1,71 @@
-import AbstractOrder, {
-  OrderInterface,
-} from "../../Domain/Order/AbstractOrder";
+import { OrderServiceInterface } from "../../Domain/interfaces/Order/OrderServiceInterface";
 import Order from "../../Domain/Order/Order";
 import OrderRepositoryPort from "../../Domain/Port/Driven/OrderRepositoryPort";
-//import NullOrder from "../../Domain/Order/NullOrder";
-import { ProductInterface } from "../../Domain/Product/AbstractProduct";
 
-export default class OrderService {
-  private orderRepository: OrderRepositoryPort;
+export default class OrderService implements OrderServiceInterface {
 
-  constructor(orderRepository: OrderRepositoryPort) {
-    this.orderRepository = orderRepository;
+  constructor(private orderRepository: OrderRepositoryPort) {}
+
+  async calcularTotal(idPedido: number): Promise<number> {
+    return await this.orderRepository.getTotal(idPedido)
   }
 
-  public async crearPedido(orderData: OrderInterface): Promise<Order> {
-    //CORREGIR
-    /*if (!orderData.productos || orderData.productos.length === 0) {
-      return new NullOrder(); // Retorna una orden nula si no hay productos
-    }*/
-    const order = new Order(orderData);
-    const productos: ProductInterface[] = order.getProductos();
-    const total = this.calcularTotal(productos);
-    order.setTotal(total);
-    const nuevoPedido = await this.orderRepository.createOrder(order);
-    return nuevoPedido;
+  async createOrder(order: Order): Promise<void> {
+    await this.orderRepository.createOrder(order)
   }
 
-  // public async actualizarEstadoPedido(pedidoId: number, nuevoEstado: string): Promise<OrderInterface> {
-  //   const pedido = await this.orderRepository.getOrderById(pedidoId);
+  async getOrderById(id: number): Promise<Order | null> {
+    return await this.orderRepository.getOrderById(id);
+  }
 
-  //   if (!pedido) {
-  //     throw new Error("Pedido no encontrado");
-  //   }
-  //   pedido.estado = nuevoEstado;
-  //   const pedidoActualizado = await this.orderRepository.updateOrder(pedido, nuevoEstado);
-  //   return pedidoActualizado;
-  // }
+  async getAllOrders(): Promise<Order[]> {
+    return await this.orderRepository.getAllOrders();
+  }
 
-  public async obtenerPedido(pedidoId: number): Promise<Order> {
-    const pedido = await this.orderRepository.getOrderById(pedidoId);
+  async getState(id: number): Promise<string> {
+    return await this.orderRepository.getState(id);
+  }
 
-    if (!pedido) {
+  async updateOrderState(pedidoId: number, newState: string): Promise<void> {
+    const order = await this.getOrderById(pedidoId);
+    const state = newState
+
+    if (!order) {
       throw new Error("Pedido no encontrado");
     }
+
+    await this.orderRepository.updateOrderState(pedidoId, state);
+    
+  }
+
+  async updateOrderAddress(pedidoId: number, address: string): Promise<void> {
+    const order = await this.getOrderById(pedidoId);
+
+    if (!order) {
+      throw new Error("Pedido no encontrado");
+    }
+
+    await this.orderRepository.updateOrderAddress(pedidoId, address);
+  }
+
+  async updateOrderCelphone(pedidoId: number, newPhone: number): Promise<void> {
+    const order = await this.getOrderById(pedidoId);
+    const phone = newPhone
+
+    if (!order) {
+      throw new Error("Pedido no encontrado");
+    }
+
+    await this.orderRepository.updateOrderCelphone(pedidoId, phone);
   
-    return pedido;
   }
 
-  public async listarPedidosUsuario(usuarioId: number): Promise<OrderInterface[]> {
-    const pedidos = await this.orderRepository.getOrderForUser(usuarioId);
-    return pedidos | null;
+  async deleteOrder(pedidoId: number): Promise<void> {
+    return await this.orderRepository.deleteOrder(pedidoId);
   }
 
-  public calcularTotal(productos: ProductInterface[]): number {
-    return productos.reduce(
-      (total: number, producto: ProductInterface) => total + producto.precio,
-      0
-    );
+  async getOrderForUser(userId: number): Promise<Order[] | null> {
+    return await this.orderRepository.getOrderForUser(userId);
   }
+
 }

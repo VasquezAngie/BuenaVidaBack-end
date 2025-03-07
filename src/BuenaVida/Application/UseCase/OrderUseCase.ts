@@ -1,51 +1,60 @@
-import OrderInterface from "../../Domain/Order/AbstractOrder";
+import { OrderServiceInterface } from "../../Domain/interfaces/Order/OrderServiceInterface";
+import { OrderInterface } from "../../Domain/Order/AbstractOrder";
+import Order from "../../Domain/Order/Order";
+import OrderUseCasePort from "../../Domain/Port/Driver/OrderUseCasePort";
 import { ProductInterface } from "../../Domain/Product/AbstractProduct";
 
-export default class OrderUseCases {
-  private order: OrderInterface;
+export default class OrderUseCases implements OrderUseCasePort {
 
-  constructor(order: OrderInterface) {
-    this.order = order;
-  }
-  // Agregar un producto a la orden
-  public agregarProducto(producto: ProductInterface): void {
-    const productos = this.order.getProductos();
-    productos.push(producto);
-    this.order.setProductos(productos);
-    this.calcularTotal();
-  }
-  // Eliminar un producto de la orden
-  public eliminarProducto(productoId: number): void {
-    const productos = this.order
-      .getProductos()
-      .filter((p) => p.id !== productoId);
-    this.order.setProductos(productos);
-    this.calcularTotal();
-  }
-  // Calcular el total de la orden
-  public calcularTotal(): void {
-    const total = this.order
-      .getProductos()
-      .reduce((sum, producto) => sum + producto.precio, 0);
-    this.order.setTotal(total);
-  }
-  // Obtener el estado de envío
-  public getEstadoEnvio(): string {
-    return this.order.getEstado();
-  }
-  // Modificar la cantidad de un producto
-  public modificarCantidad(productoId: number, cantidad: number): void {
-    const productos = this.order.getProductos().map((p) => {
-      if (p.id === productoId) {
-        return { ...p, cantidad };
-      }
-      return p;
-    });
-    this.order.setProductos(productos);
-    this.calcularTotal();
+  constructor(private readonly orderService: OrderServiceInterface) {}
+
+  async crearOrden(order: OrderInterface): Promise<void> {
+    const orderCreated = new Order(order)
+    await this.orderService.createOrder(orderCreated);
   }
 
-  calcular
-  tio.traerproductos
-  geetprecio + {}
+  async calcularTotal(idPedido: number): Promise<number> {
+    return await this.orderService.calcularTotal(idPedido);
+  }
+
+  async getEstadoOrden(idPedido: number): Promise<string> {
+    return await this.orderService.getState(idPedido);
+  }
+
+  async actualizarEstadoOrden(idPedido:number, nuevoEstado: string): Promise<void> {
+    const estadosPermitidos = ["pendiente", "procesando", "completado", "cancelado"];
+    if (!estadosPermitidos.includes(nuevoEstado)) {
+      throw new Error("Estado de orden no válido");
+    }
+    await this.orderService.updateOrderState(idPedido, nuevoEstado);  
+  }
+
+
+  /////////////////
+
+  async traerPedido(id: number): Promise<Order | null> {
+    return await this.orderService.getOrderById(id);
+  }
+
+  async todosPedidos(): Promise<Order[]> {
+    return await this.orderService.getAllOrders();
+  }
+
+  async actualizarDireccion(id: number, newAddress: string): Promise<void> {
+    await this.orderService.updateOrderAddress(id, newAddress);
+  }
+
+  async actualizarCelular(id: number, newPhone: number): Promise<void> {
+    await this.orderService.updateOrderCelphone(id, newPhone);
+  }
+
+  async eliminarPedido(pedidoId: number): Promise<void> {
+    await this.orderService.deleteOrder(pedidoId);
+  }
+
+  async pedidoUser(userId: number): Promise<Order[] | null> {
+    return await this.orderService.getOrderForUser(userId);
+  }
+  
+  
 }

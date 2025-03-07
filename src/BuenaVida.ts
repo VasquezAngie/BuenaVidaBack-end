@@ -1,5 +1,4 @@
-import BuenaVidaFactory from "./BuenaVida/Infraestructure/Factory/BuenaVidaFactory"
-import OrderRouterFactory from "./BuenaVida/Infraestructure/Factory/OrderRouterFactory";
+import OrderFactory from "./BuenaVida/Infraestructure/Factory/OrderFactory";
 import ServerFactory from "./Express/infrastructure/factory/ServerFactory"
 
 console.log("Index?")
@@ -10,16 +9,13 @@ console.log("Index?");
 // const server = ServerFactory.create([exampleRoute])
 // server.start()
 
-const OrderRouter = OrderFactory.create()
-const BuenaVidaRouter = BuenaVidaFactory.create()
-const BuenaVidaRouter = BuenaVidaFactory.create()
-const BuenaVidaRouter = BuenaVidaFactory.create()
-const BuenaVidaRouter = BuenaVidaFactory.create()
+const orderRouter = OrderFactory.create()
+const productRouter = ProductFactory.create()
+const userRouter = UsuarioFactory.create()
+const cartRouter = CartFactory.create()
+const orderDetailRouter = OrderDetailFactory.create()
 
-OrderRouterFactory
-
-
-const routers = [BuenaVidaRouter, orderFact]
+const routers = [orderRouter, productRouter, userRouter, cartRouter, orderDetailRouter]
 
 const server = ServerFactory.create(routers)
 server.start()

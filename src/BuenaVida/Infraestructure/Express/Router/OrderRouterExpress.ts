@@ -1,12 +1,11 @@
 import { Router } from "express";
-import OrderRouterExpressInterface from "../../../Domain/interfaces/BuenaVidaRouteExpress";
-import BuenaVidaControllerExpressInterface from "../../../Domain/interfaces/BuenaVidaControllerExpressInterface";
+import OrderUseCasePort from "../../../Domain/Port/Driver/OrderUseCasePort";
 
 export default class OrderRouterExpress implements OrderRouterExpressInterface {
     router: Router
     path: string
   
-    constructor(private readonly orderController: BuenaVidaControllerExpressInterface) {
+    constructor(private readonly orderUseCase: OrderUseCasePort) {
       this.router = Router()
       this.path = '/BuenaVida'
       this.routes()
@@ -21,7 +20,7 @@ export default class OrderRouterExpress implements OrderRouterExpressInterface {
     }
   
     public getOrderById(): void {
-        this.router.get('/vida/mona', this.orderController.getOrderById.bind(this.orderController))
+        this.router.get('/vida/mona', this.orderUseCase.crearOrden.bind(this.orderUseCase))
     }
   
   }

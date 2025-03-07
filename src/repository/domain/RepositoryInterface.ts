@@ -12,7 +12,9 @@ export default interface RepositoryInterface<_E, T> {
 
     getAllOrders(): Promise<T[]>
 
-    updateOrder(id: number, order: T): Promise<void>
+    updateOrderState(id: number): Promise<void>
+    updateOrderAddress(id: number): Promise<void>
+    updateOrderCelphone(id: number): Promise<void>
 
     deleteOrder(id: number): Promise<void>
 

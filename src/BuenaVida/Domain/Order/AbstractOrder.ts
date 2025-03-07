@@ -1,9 +1,10 @@
-import { ProductInterface } from "../Product/AbstractProduct";
+import OrderDetailInterface from "../OrderDetail/AbstractOrderDetail";
 
 export default abstract class AbstractOrder {
   protected id: number;
   protected usuarioId: number;
-  protected productos: ProductInterface[];
+  protected detallePedido: OrderDetailInterface[];
+  protected fecha: Date;
   protected total: number;
   protected estado: string;
   protected direccionEntrega: string;
@@ -12,12 +13,14 @@ export default abstract class AbstractOrder {
   constructor(orderInterface: OrderInterface) {
     this.id = orderInterface.id;
     this.usuarioId = orderInterface.usuarioId;
-    this.productos = orderInterface.productos;
+    this.detallePedido = orderInterface.detallePedido;
+    this.fecha = orderInterface.fecha;
     this.total = orderInterface.total;
     this.estado = orderInterface.estado;
     this.direccionEntrega = orderInterface.direccionEntrega;
     this.telefono = orderInterface.telefono;
   }
+
   //Getters y setters
   public abstract isNull(): boolean;
 
@@ -27,9 +30,14 @@ export default abstract class AbstractOrder {
   public getUsuarioId(): number {
     return this.usuarioId;
   }
-  public getProductos(): ProductInterface[] {
-    return this.productos;
+  public getDetallePedido(): OrderDetailInterface[] {
+    return this.detallePedido;
   }
+
+  public getFecha(): Date {
+    return this.fecha;
+  }
+
   public getTotal(): number {
     return this.total;
   }
@@ -48,9 +56,10 @@ export default abstract class AbstractOrder {
   public setUsuarioId(usuarioId: number): void {
     this.usuarioId = usuarioId;
   }
-  public setProductos(productos: ProductInterface[]): void {
-    this.productos = productos;
+  public setDetallePedido(detallePedido: OrderDetailInterface[]): void {
+    this.detallePedido = detallePedido;
   }
+
   public setTotal(total: number): void {
     this.total = total;
   }
@@ -68,7 +77,8 @@ export default abstract class AbstractOrder {
 export interface OrderInterface {
   id: number;
   usuarioId: number;
-  productos: ProductInterface[];
+  detallePedido: OrderDetailInterface[];
+  fecha: Date;
   total: number;
   estado: string;
   direccionEntrega: string;
