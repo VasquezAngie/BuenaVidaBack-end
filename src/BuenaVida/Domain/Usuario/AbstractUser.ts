@@ -1,25 +1,18 @@
-import AbstractPedido from "../Order/AbstractOrder";
-import { ProductInterface } from "../Product/AbstractProduct";
-
 export default abstract class AbstractUser {
   protected id: number;
   protected nombre: string;
+  protected apellidos: string;
   protected email: string;
   protected contraseña: string;
-  protected direction: string;
-  protected telefono: string;
-  protected pedidos: AbstractPedido[];
-  protected favoritos: ProductInterface[];
+  protected rol: string;
 
   constructor(usuarioInterface: UsuarioInterface) {
     this.id = usuarioInterface.id;
     this.nombre = usuarioInterface.nombre;
+    this.apellidos = usuarioInterface.apellidos;
     this.email = usuarioInterface.email;
     this.contraseña = usuarioInterface.contraseña;
-    this.direction = usuarioInterface.direction;
-    this.telefono = usuarioInterface.telefono;
-    this.pedidos = usuarioInterface.pedidos;
-    this.favoritos = usuarioInterface.favoritos;
+    this.rol = usuarioInterface.rol;
   }
 
   public abstract isNull(): boolean;
@@ -28,33 +21,36 @@ export default abstract class AbstractUser {
 
   public getnombre = (): string => this.nombre;
 
+  public getApellidos = (): string => this.apellidos;
+
   public getEmail = (): string => this.email;
 
   public getcontraseña = (): string => this.contraseña;
 
-  public getDirection = (): string => this.direction;
+  public setNombre = (nombre: string): void => {
+    this.nombre = nombre;
+  };
 
-  public gettelefono = (): string => this.telefono;
+  public setApellidos = (apellidos: string): void => {
+    this.apellidos = apellidos;
+  };
 
-  public getPedidos = (): AbstractPedido[] => this.pedidos;
+  public setEmail = (email: string): void => {
+    this.email = email;
+  };
 
-  public añadirAFavoritos(producto: ProductInterface) {
-    this.favoritos.push(producto);
-  }
-  public eliminarDeFavoritos(producto: ProductInterface) {
-    this.favoritos = this.favoritos.filter((item) => item.id !== producto.id);
-  }
+  public setContraseña = (contraseña: string): void => {
+    this.contraseña = contraseña;
+  };
 }
 
 interface UsuarioInterface {
   id: number;
   nombre: string;
+  apellidos: string;
   email: string;
   contraseña: string;
-  direction: string;
-  telefono: string;
-  pedidos: AbstractPedido[];
-  favoritos: ProductInterface[];
+  rol: string;
 }
 
 export { UsuarioInterface };

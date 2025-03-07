@@ -1,7 +1,7 @@
 import OrderFactory from "./BuenaVida/Infraestructure/Factory/OrderFactory";
 import ServerFactory from "./Express/infrastructure/factory/ServerFactory"
 
-console.log("Index?")
+console.log("Index?");
 console.log("Starting application...");
 console.log("Application started successfully.");
 console.log("Index?");
@@ -17,6 +17,5 @@ const orderDetailRouter = OrderDetailFactory.create()
 
 const routers = [orderRouter, productRouter, userRouter, cartRouter, orderDetailRouter]
 
-const server = ServerFactory.create(routers)
-server.start()
-
+const server = ServerFactory.create(routers);
+server.start();
