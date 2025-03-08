@@ -1,44 +1,34 @@
-// carritoService.ts
-import AbstractProduct from "../../Domain/Product/AbstractProduct";
-import { CarritoUseCases } from "../UseCase/CarritoUseCases";
-import AbstractCart, { CartInterface } from "../../Domain/Cart/AbstractCart";
+import { CarritoServicioInterface } from "../../Domain/interfaces/CarritoServiceInterface";
+import { CarritoRepositoryInterface } from "../../Domain/interfaces/CarritoRepositoryInterface";
 
-export class CarritoService extends AbstractCart implements CarritoUseCases {
-  constructor(cartInterface: CartInterface) {
-    super(cartInterface);
+export class CarritoService implements CarritoServicioInterface {
+  constructor(private carritoRepositorio: CarritoRepositoryInterface) {}
+
+  async agregarProducto(idUsuario: number, idProducto: number): Promise<void> {
+    await this.carritoRepositorio.insertarProducto(idUsuario, idProducto);
   }
 
-  agregarProducto(usuarioId: number, producto: AbstractProduct): void {
-    if (this.usuarioId === usuarioId) {
-      this.productos.push(producto);
-      this.total += producto.getprecio();
-    }
+  async eliminarProducto(idUsuario: number, idProducto: number): Promise<void> {
+    await this.carritoRepositorio.eliminarProducto(idUsuario, idProducto);
   }
 
-  eliminarProducto(usuarioId: number, productoId: number): void {
-    if (this.usuarioId === usuarioId) {
-      this.productos = this.productos.filter(
-        (producto) => producto.getId() !== productoId
-      );
-      this.total = this.productos.reduce(
-        (acc, producto) => acc + producto.getprecio(),
-        0
-      );
-    }
+  async actualizarCantidad(
+    idUsuario: number,
+    idProducto: number,
+    cantidad: number
+  ): Promise<void> {
+    await this.carritoRepositorio.actualizarCantidad(
+      idUsuario,
+      idProducto,
+      cantidad
+    );
   }
 
-  obtenerCarrito(usuarioId: number): AbstractProduct[] {
-    return this.usuarioId === usuarioId ? this.productos : [];
+  async vaciarCarrito(idUsuario: number): Promise<void> {
+    await this.carritoRepositorio.vaciarCarrito(idUsuario);
   }
 
-  calcularTotal(usuarioId: number): number {
-    return this.usuarioId === usuarioId ? this.total : 0;
-  }
-
-  vaciarCarrito(usuarioId: number): void {
-    if (this.usuarioId === usuarioId) {
-      this.productos = [];
-      this.total = 0;
-    }
+  async obtenerCarrito(idUsuario: number): Promise<any> {
+    return await this.carritoRepositorio.obtenerCarrito(idUsuario);
   }
 }
