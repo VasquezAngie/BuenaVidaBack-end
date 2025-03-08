@@ -1,27 +1,33 @@
 import { Router } from "express";
-import OrderRouterExpressInterface from "../../../Domain/interfaces/BuenaVidaRouteExpress";
-import BuenaVidaControllerExpressInterface from "../../../Domain/interfaces/BuenaVidaControllerExpressInterface";
+import OrderUseCasePort from "../../../Domain/Port/Driver/OrderUseCasePort";
+import OrderRouterExpressInterface from "../../../Domain/interfaces/Order/OrderExpressInterface";
+import OrderControllerExpressInterface from '../../../Domain/interfaces/Order/OrderControllerExpressInterface';
 
 export default class OrderRouterExpress implements OrderRouterExpressInterface {
-    router: Router
-    path: string
-  
-    constructor(private readonly orderController: BuenaVidaControllerExpressInterface) {
-      this.router = Router()
-      this.path = '/BuenaVida'
-      this.routes()
+    
+    router: Router;
+    path: string;
+
+    constructor(private readonly orderController: OrderControllerExpressInterface) {
+        this.router = Router()
+        this.path = '/movies'
+        this.routes()
     }
 
     public routes(): void {
-        this.getOrderById()
+        this.initializeRoutes()
     }
-
-    getProducts(): void {
-        throw new Error("Method not implemented.");
+    
+    public initializeRoutes(): void {
+        this.router.post("/pedidos", (req, res) =>
+          this.orderController.getPedidos(req, res)
+        );
+        this.router.post("/pedido/:id", (req, res) =>
+          this.orderController.getPedidoById(req, res)
+        );
+        this.router.put("/pedido/:user", (req, res) =>
+          this.orderController.getMovieByUser(req, res)
+        );
     }
   
-    public getOrderById(): void {
-        this.router.get('/vida/mona', this.orderController.getOrderById.bind(this.orderController))
-    }
-  
-  }
+}

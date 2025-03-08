@@ -5,6 +5,83 @@ import pool from "./conection";
 
 
 export default class OrderRepository implements OrderRepositoryPort {
+    
+    async getTotal(id: number): Promise<number> {
+        const connection = await pool.getConnection();
+        try {
+            const [rows]: any = await connection.execute(
+                `SELECT total FROM pedidos WHERE idPedido = ?`,
+                [id]
+            );
+            connection.release();
+    
+            if (rows.length === 0) {
+                throw new Error("Pedido no encontrado");
+            }
+    
+            return rows[0].total;
+        } catch (error) {
+            connection.release();
+            throw error;
+        }  
+    }
+
+    async getState(id: number): Promise<string> {
+        const connection = await pool.getConnection();
+        try {
+            const [rows]: any = await connection.execute(
+                `SELECT nombreEstado FROM estadospedidos WHERE idEstado = ?`,
+                [id]
+            );
+            connection.release();
+            return rows.length > 0 ? rows[0].nombreEstado : "Estado no encontrado";
+        } catch (error) {
+            connection.release();
+            throw error;
+        }    
+    }
+
+    async updateOrderState(id: number, estado: string): Promise<void> {
+        const connection = await pool.getConnection();
+        try {
+            await connection.execute(
+                `UPDATE pedidos SET idEstado = ? WHERE idPedido = ?`,
+                [estado, id]
+            );
+            connection.release();
+        } catch (error) {
+            connection.release();
+            throw error;
+        }    
+    }
+    
+    async updateOrderAddress(userId: number, address: string): Promise<void> {
+        const connection = await pool.getConnection();
+        try {
+            await connection.execute(
+                `UPDATE pedidos SET direccion = ? WHERE idPedido = ?`,
+                [address, userId]
+            );
+            connection.release();
+        } catch (error) {
+            connection.release();
+            throw error;
+        }  
+    }
+
+    async updateOrderCelphone(userId: number, celphone: number): Promise<void> {
+        const connection = await pool.getConnection();
+        try {
+            await connection.execute(
+                `UPDATE pedidos SET direccion = ? WHERE idPedido = ?`,
+                [celphone, userId]
+            );
+            connection.release();
+        } catch (error) {
+            connection.release();
+            throw error;
+        }  
+    }
 
     async getOrderForUser(id: number): Promise<Order[] | null> {
         const connection = await pool.getConnection();
@@ -24,15 +101,15 @@ export default class OrderRepository implements OrderRepositoryPort {
         }
     }
     
-    async createOrder(order: Order): Promise<OrderInterface> {
+    async createOrder(order: Order): Promise<void> {
         const connection = await pool.getConnection();
         try {
-            const [result] = await connection.execute(
-                `INSERT INTO pedidos (idPedido, idUsuario, idEstado) VALUES (?, ?, ?)`,
-                [order.setId, order.setUsuarioId, order.setEstado]
+            const [result]: any = await connection.execute(
+                `INSERT INTO pedidos (idUsuario, idEstado, total) VALUES (?, ?, ?)`,
+                [order.setUsuarioId, order.setEstado, order.setTotal]
             );
             connection.release();
-            return (result as any).insertId;
+            return result.insertId;
         } catch (error) {
             connection.release();
             throw error;
@@ -42,9 +119,12 @@ export default class OrderRepository implements OrderRepositoryPort {
     async getOrderById(id: number): Promise<Order | null> {
         const connection = await pool.getConnection();
         try {
-            const [rows] = await connection.execute(`SELECT * FROM pedidos WHERE idPedido = ?`, [id]);
+            const [rows]: any = await connection.execute(
+                `SELECT * FROM pedidos WHERE idPedido = ?`,
+                [id]
+            );
             connection.release();
-            return (rows as Order[])[0] || null;
+            return rows.length > 0 ? new Order(rows[0]) : null;
         } catch (error) {
             connection.release();
             throw error;

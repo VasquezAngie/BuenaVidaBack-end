@@ -4,16 +4,17 @@ import OrderUseCasePort from "../../../Domain/Port/Driver/OrderUseCasePort";
 export default class OrderControllerExpress {
   constructor(private orderUseCase: OrderUseCasePort) {}
 
-  async getAllOrders(_req: Request, res: Response) {
+  async createOrder(req: Request, res: Response) {
     try {
-      const orders = await this.orderUseCase.getAllOrders();
+      const order = req.body;
+      const orders = await this.orderUseCase.crearOrden(order);
       res.json(orders);
     } catch (error) {
       res.status(500).json({ error: "Error al obtener órdenes" });
     }
   }
 
-  async getOrderById(req: Request, res: Response) {
+  async getEstado(req: Request, res: Response) {
     try {
       const orderId = Number(req.params.id);
       
@@ -23,7 +24,7 @@ export default class OrderControllerExpress {
         return 
       }
   
-      const order = await this.orderUseCase.obtenerPorId(orderId);
+      const order = await this.orderUseCase.getEstadoOrden(orderId);
       
       if (!order) {
         res.status(404).json({ error: "Orden no encontrada" });

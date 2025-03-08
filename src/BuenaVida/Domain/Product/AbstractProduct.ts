@@ -26,15 +26,18 @@ export default abstract class AbstractProduct {
   public getId = (): number => this.id;
   public getnombre = (): string => this.nombre;
   public getdescripcion = (): string => this.descripcion;
-  public getprecio = (): number => this.precio;
+  public getprecio = (): number => this.aplicarDescuento();
   public getstock = (): number => this.stock;
   public getcategoria = (): string => this.categoria;
   public getImage = (): string => this.image;
+  public getDescuento = (): number => this.descuento
   public getenpromocion = (): number => this.enPromocion;
-  protected aplicarDescuento() {
+  protected aplicarDescuento(): number {
     if (this.descuento > 0) {
       this.precio = this.precio * (1 - this.descuento / 100);
     }
+
+    return this.precio;
   }
 }
 
