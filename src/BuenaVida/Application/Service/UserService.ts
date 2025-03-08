@@ -1,5 +1,4 @@
 import AuthRepository from "../../Infraestructure/db/AuthRepository";
-import UserInterface from "../../Domain/Usuario/AbstractUser";
 import UserServiceInterface from "../../Domain/interfaces/User/UserServiceInterface";
 import User from "../../Domain/Usuario/User";
 

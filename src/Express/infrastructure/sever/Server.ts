@@ -1,14 +1,14 @@
 import express, { Application } from 'express'
 import ExpressProvider from '../provider/ExpressProvider'
 import RouterExpressInterface from '../../domain/RouterExpressInterface'
-import ErrorRouterExpressInterface from '../error/router/ErrorExpressRouter'
+//import ErrorRouterExpressInterface from '../error/router/ErrorExpressRouter'
 
 export default class Server {
   private readonly app: Application
 
   constructor(
     private readonly routesExpress: RouterExpressInterface[],
-    private readonly error: ErrorRouterExpressInterface
+    //private readonly error: ErrorRouterExpressInterface
   ) {
     this.app = express()
     this.configure()
@@ -20,7 +20,7 @@ export default class Server {
       this.app.use(route.path, route.router)
     })
 
-    this.app.use(this.error.path, this.error.router)
+    //this.app.use(this.error.path, this.error.router)
   }
 
   public configure() {
