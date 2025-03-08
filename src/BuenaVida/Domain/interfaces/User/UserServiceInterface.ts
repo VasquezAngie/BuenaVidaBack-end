@@ -1,6 +1,7 @@
-import UserInterface from "../../Domain/Usuario/AbstractUser";
+import User from "../../Usuario/User";
+
 export default interface UserServiceInterface {
-  registrarUsuario(usuario: UserInterface): Promise<boolean>;
+  registrarUsuario(usuario: User): Promise<boolean>;
   actualizarUsuario(
     id: number,
     email?: string,

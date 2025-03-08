@@ -1,5 +1,4 @@
 import { Router } from "express";
-import OrderUseCasePort from "../../../Domain/Port/Driver/OrderUseCasePort";
 import OrderRouterExpressInterface from "../../../Domain/interfaces/Order/OrderExpressInterface";
 import OrderControllerExpressInterface from '../../../Domain/interfaces/Order/OrderControllerExpressInterface';
 
@@ -26,7 +25,7 @@ export default class OrderRouterExpress implements OrderRouterExpressInterface {
           this.orderController.getPedidoById(req, res)
         );
         this.router.put("/pedido/:user", (req, res) =>
-          this.orderController.getMovieByUser(req, res)
+          this.orderController.getPedidoByUser(req, res)
         );
     }
   

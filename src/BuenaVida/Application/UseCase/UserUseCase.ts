@@ -1,14 +1,12 @@
 import UserUseCasePort from "../../Domain/Port/Driver/UserUseCasePort";
-import UserServiceInterface from "../../Domain/interfaces/UserServiceInterface";
 import jwt from "jsonwebtoken";
 import User from "../../Domain/Usuario/User";
+import UserServiceInterface from "../../Domain/interfaces/User/UserServiceInterface";
 
 export default class UserUseCase implements UserUseCasePort {
-  private userService: UserServiceInterface;
+  
 
-  constructor(userService: UserServiceInterface) {
-    this.userService = userService;
-  }
+  constructor(private userService: UserServiceInterface) {  }
 
   async crearUsuario(
     id: number,

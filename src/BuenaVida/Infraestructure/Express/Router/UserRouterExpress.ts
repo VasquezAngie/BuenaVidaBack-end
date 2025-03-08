@@ -1,15 +1,21 @@
 import { Router } from "express";
-import UserRouterExpressInterface from "../../../Domain/interfaces/UserRouterExpressInterface";
+import UserRouterExpressInterface from "../../../Domain/interfaces/User/UserRouterExpressInterface";
 import UserControllerExpress from "../Controller/UserControllerExpress";
 
 export default class UserRouterExpress implements UserRouterExpressInterface {
-  private router: Router;
+  router: Router;
   private userController: UserControllerExpress;
+  path: string;
 
   constructor(userController: UserControllerExpress) {
     this.router = Router();
+    this.path = '/User'
     this.userController = userController;
     this.initializeRoutes();
+  }
+  
+  routes(): void {
+    throw new Error("Method not implemented.");
   }
 
   private initializeRoutes(): void {

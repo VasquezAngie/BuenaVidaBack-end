@@ -1,14 +1,13 @@
 import { Request, Response } from "express";
-import UserControllerExpressInterface from "../../../Domain/interfaces/UserControllerExpressInterface";
+import UserControllerExpressInterface from "../../../Domain/interfaces/User/UserControllerExpressInterface";
 import UserUseCase from "../../../Application/UseCase/UserUseCase";
+import UserUseCasePort from "../../../Domain/Port/Driver/UserUseCasePort";
 
 export default class UserControllerExpress
   implements UserControllerExpressInterface
 {
-  private userUseCase: UserUseCase;
 
-  constructor(userUseCase: UserUseCase) {
-    this.userUseCase = userUseCase;
+  constructor(private userUseCase: UserUseCasePort) {
   }
 
   async iniciarSesion(req: Request, res: Response): Promise<void> {

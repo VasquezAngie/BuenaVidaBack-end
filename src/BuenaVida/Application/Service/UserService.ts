@@ -1,15 +1,13 @@
-import UserServiceInterface from "../../Domain/interfaces/UserServiceInterface";
 import AuthRepository from "../../Infraestructure/db/AuthRepository";
 import UserInterface from "../../Domain/Usuario/AbstractUser";
+import UserServiceInterface from "../../Domain/interfaces/User/UserServiceInterface";
+import User from "../../Domain/Usuario/User";
 
 export default class UserService implements UserServiceInterface {
-  private authRepository: AuthRepository;
 
-  constructor() {
-    this.authRepository = new AuthRepository();
-  }
+  constructor(private authRepository: AuthRepository) {  }
 
-  async registrarUsuario(usuario: UserInterface): Promise<boolean> {
+  async registrarUsuario(usuario: User): Promise<boolean> {
     try {
       const id = usuario.getId();
       const nombre = usuario.getnombre();

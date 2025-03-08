@@ -1,6 +1,48 @@
+import { Response } from "express";
+import { AuthPort } from "../../Domain/Port/Driven/AuthPort";
 import pool from "./conection";
+import jwt from "jsonwebtoken";
 
-export default class AuthRepository {
+export default class AuthRepository implements AuthPort {
+  readonly secret: string = "mi_secreto";
+
+  async generateToken(userId: string): Promise<string> {
+    return jwt.sign({ userId }, this.secret, { expiresIn: "1h" });
+  }
+
+  async validateToken(token: string): Promise<string | null> {
+    try {
+      const decoded = jwt.verify(token, this.secret) as { userId: string };
+      return decoded.userId;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  async authenticateUser(
+    email: string,
+    password: string,
+    res: Response
+  ): Promise<boolean> {
+    const user = await this.verifyCredentials(email, password);
+    if (!user) return false;
+
+    const token = this.generateToken(user.id);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+    });
+
+    return true;
+  }
+
+  async logoutUser(res: Response): Promise<void> {
+    res.clearCookie("token");
+    console.log("Usuario ha cerrado sesión.");
+  }
+
+
   async verifyCredentials(
     email: string,
     password: string

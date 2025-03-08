@@ -2,7 +2,7 @@ import { OrderServiceInterface } from "../../Domain/interfaces/Order/OrderServic
 import { OrderInterface } from "../../Domain/Order/AbstractOrder";
 import Order from "../../Domain/Order/Order";
 import OrderUseCasePort from "../../Domain/Port/Driver/OrderUseCasePort";
-import { ProductInterface } from "../../Domain/Product/AbstractProduct";
+
 
 export default class OrderUseCases implements OrderUseCasePort {
 
