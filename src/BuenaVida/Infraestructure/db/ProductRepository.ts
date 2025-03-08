@@ -7,7 +7,7 @@ export default class ProductRepository implements ProductReporsitoryPort{
     async getAllProduct(): Promise<Product[]> {
         const connection = await pool.getConnection();
         try {
-          const query = "SELECT * FROM products";
+          const query = "SELECT * FROM productos"
           const [rows]: any = await connection.execute(query);
           connection.release();
           if (rows.length === 0) {
@@ -20,10 +20,10 @@ export default class ProductRepository implements ProductReporsitoryPort{
         }  
     }
 
-  async editProduct(id: number, data: Product): Promise<Product> {
+  async editProduct(id: number, data: Product): Promise<boolean> {
     const connection = await pool.getConnection();
     try {
-      const query = `UPDATE products SET nombre = ?, descripcion = ?, precio = ?, stock = ?, categoria = ?, image = ?, descuento = ?, enPromocion = ? WHERE id = ?`;
+      const query = `UPDATE productos SET nombre = ?, descripcion = ?, precio = ?, stock = ?, categoria = ?, image = ?, descuento = ?, enPromocion = ? WHERE id = ?`;
       const values = [
         data.getnombre,
         data.getdescripcion,
@@ -37,29 +37,31 @@ export default class ProductRepository implements ProductReporsitoryPort{
       ];
       await connection.execute(query, values);
       connection.release();
-      return this.getProductById(id);
+      return true;
     } catch (error) {
       connection.release();
       throw error;
     }
   }
 
-  async deleteProduct(id: number): Promise<void> {
+  async deleteProduct(id: number): Promise<boolean> {
     const connection = await pool.getConnection();
     try {
-      const query = "DELETE FROM products WHERE id = ?";
+      const query = "DELETE FROM productos WHERE id = ?";
       await connection.execute(query, [id]);
       connection.release();
+      return true;
+
     } catch (error) {
       connection.release();
       throw error;
     }
   }
 
-  async createProduct(data: Product): Promise<void> {
+  async createProduct(data: Product): Promise<boolean> {
     const connection = await pool.getConnection();
     try {
-      const query = "INSERT INTO products (nombre, descripcion, precio, stock, categoria, image, descuento, enPromocion) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+      const query = "INSERT INTO productos (nombre, descripcion, precio, stock, categoria, image, descuento, enPromocion) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
       const values = [
         data.getnombre,
         data.getdescripcion,
@@ -72,6 +74,8 @@ export default class ProductRepository implements ProductReporsitoryPort{
       ];
       await connection.execute(query, values);
       connection.release();
+      return true;
+
     } catch (error) {
       connection.release();
       throw error;
@@ -81,7 +85,7 @@ export default class ProductRepository implements ProductReporsitoryPort{
   async getProductById(id: number): Promise<Product> {
     const connection = await pool.getConnection();
     try {
-      const query = "SELECT * FROM products WHERE id = ?";
+      const query = "SELECT * FROM productos WHERE id = ?";
       const [rows]: any = await connection.execute(query, [id]);
       connection.release();
       if (rows.length === 0) {

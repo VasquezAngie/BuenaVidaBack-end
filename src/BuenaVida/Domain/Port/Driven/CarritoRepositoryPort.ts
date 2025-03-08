@@ -1,5 +1,5 @@
-export interface CarritoUseCaseInterface {
-  agregarProducto(idUsuario: number, idProducto: number): Promise<void>;
+export interface CarritoRepositoryPort {
+  insertarProducto(idUsuario: number, idProducto: number): Promise<void>;
   eliminarProducto(idUsuario: number, idProducto: number): Promise<void>;
   actualizarCantidad(
     idUsuario: number,

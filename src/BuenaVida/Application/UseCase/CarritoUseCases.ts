@@ -1,4 +1,4 @@
-import { CarritoUseCaseInterface } from "../../Domain/Port/Driver/CarritoUseCaseInterface";
+import { CarritoUseCaseInterface } from "../../Domain/Port/Driver/CarritoUseCasePort";
 import { CarritoService } from "../Service/CarritoService";
 
 export class CarritoUseCase implements CarritoUseCaseInterface {

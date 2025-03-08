@@ -1,5 +1,5 @@
 import { Router } from "express";
-import OrderRouterExpressInterface from "../../../Domain/interfaces/Order/OrderExpressInterface";
+import OrderRouterExpressInterface from "../../../Domain/interfaces/Order/OrderRouterExpressInterface";
 import OrderControllerExpressInterface from '../../../Domain/interfaces/Order/OrderControllerExpressInterface';
 
 export default class OrderRouterExpress implements OrderRouterExpressInterface {
@@ -9,7 +9,7 @@ export default class OrderRouterExpress implements OrderRouterExpressInterface {
 
     constructor(private readonly orderController: OrderControllerExpressInterface) {
         this.router = Router()
-        this.path = '/movies'
+        this.path = '/Pedido'
         this.routes()
     }
 
@@ -18,6 +18,7 @@ export default class OrderRouterExpress implements OrderRouterExpressInterface {
     }
     
     public initializeRoutes(): void {
+      console.log("rutas de pedidos");
         this.router.post("/pedidos", (req, res) =>
           this.orderController.getPedidos(req, res)
         );

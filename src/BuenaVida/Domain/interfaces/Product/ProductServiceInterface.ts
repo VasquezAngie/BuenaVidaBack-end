@@ -6,8 +6,8 @@ export interface ProductServiceInterface {
 
     enPromocion(idProduct: number): Promise<boolean>
     getDescuento(idProduct: number): Promise<number>
-    editProduct(idProduct: number, product:Product): Promise<void>
-    addProduct(product: Product): Promise<void>
-    deleteProduct(id: number): Promise<void>
+    editProduct(idProduct: number, product:Product): Promise<boolean>
+    addProduct(product: Product): Promise<boolean>
+    deleteProduct(id: number): Promise<boolean>
 
 }

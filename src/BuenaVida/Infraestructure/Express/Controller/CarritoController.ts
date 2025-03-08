@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { CarritoUseCaseInterface } from "../../../Domain/Port/Driver/CarritoUseCaseInterface";
-import { CarritoControllerInterface } from "../../../Domain/interfaces/CarritoControllerInterface";
+import { CarritoControllerExpressInterface } from "../../../Domain/interfaces/Cart/CarritoControllerExpressInterface";
+import { CarritoUseCasePort } from "../../../Domain/Port/Driver/CarritoUseCasePort";
 
-export class CarritoController implements CarritoControllerInterface {
-  constructor(private cartUseCase: CarritoUseCaseInterface) {}
+export class CarritoControllerExpress implements CarritoControllerExpressInterface {
+  constructor(private cartUseCase: CarritoUseCasePort) {}
 
   async añadirAlCarrito(req: Request, res: Response): Promise<void> {
     try {

@@ -73,7 +73,7 @@ export default class OrderRepository implements OrderRepositoryPort {
         const connection = await pool.getConnection();
         try {
             await connection.execute(
-                `UPDATE pedidos SET direccion = ? WHERE idPedido = ?`,
+                `UPDATE pedidos SET celular = ? WHERE idPedido = ?`,
                 [celphone, userId]
             );
             connection.release();
@@ -86,7 +86,7 @@ export default class OrderRepository implements OrderRepositoryPort {
     async getOrderForUser(id: number): Promise<Order[] | null> {
         const connection = await pool.getConnection();
         try {
-            const [rows] = await connection.execute(`SELECT * FROM pedidos WHERE idPedido = ?`, [id]);
+            const [rows] = await connection.execute(`SELECT * FROM pedidos WHERE idUsuario = ?`, [id]);
             connection.release();
             const objetos = (rows as OrderInterface[]) || null;
 
@@ -134,7 +134,8 @@ export default class OrderRepository implements OrderRepositoryPort {
     async getAllOrders(): Promise<Order[]> {
         const connection = await pool.getConnection();
         try {
-            const [rows] = await connection.execute(`SELECT * FROM pedidos`);
+            const query = "SELECT p.idPedido AS idPedido, u.nombre AS nombreUsuario, u.apellidos AS apellidoUsuario, JSON_ARRAYAGG( JSON_OBJECT('productoId', dp.idProducto,'cantidad', dp.cantidad,'precio', dp.precioUnitario)) AS detallePedido,e.nombreEstado AS estado FROM pedidos p JOIN usuarios u ON p.idUsuario = u.idUsuario LEFT JOIN detallepedido dp ON p.idPedido = dp.idPedido JOIN estadospedidos e ON p.idEstado = e.idEstado GROUP BY p.idPedido, u.nombre, u.apellidos, p.idEstado;";
+            const [rows] = await connection.execute(query);
             connection.release();
             return rows as Order[];
         } catch (error) {

@@ -1,8 +1,8 @@
-import { CarritoServicioInterface } from "../../Domain/interfaces/CarritoServiceInterface";
-import { CarritoRepositoryInterface } from "../../Domain/interfaces/CarritoRepositoryInterface";
+import { CarritoServicioInterface } from "../../Domain/interfaces/Cart/CarritoServiceInterface";
+import { CarritoRepositoryPort } from "../../Domain/Port/Driven/CarritoRepositoryPort";
 
 export class CarritoService implements CarritoServicioInterface {
-  constructor(private carritoRepositorio: CarritoRepositoryInterface) {}
+  constructor(private carritoRepositorio: CarritoRepositoryPort) {}
 
   async agregarProducto(idUsuario: number, idProducto: number): Promise<void> {
     await this.carritoRepositorio.insertarProducto(idUsuario, idProducto);

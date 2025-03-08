@@ -1,13 +1,20 @@
 import { Router } from "express";
-import { CarritoControllerInterface } from "../../../Domain/interfaces/CarritoControllerInterface";
-import { CarritoRouterInterface } from "../../../Domain/interfaces/CarritoRouterInterface";
+import { CarritoControllerExpressInterface } from "../../../Domain/interfaces/Cart/CarritoControllerExpressInterface";
+import { CarritoRouterExpressInterface } from "../../../Domain/interfaces/Cart/CarritoRouterInterface";
 
-export class CarritoRouter implements CarritoRouterInterface {
-  private router: Router;
+export class CarritoRouterExpress implements CarritoRouterExpressInterface {
+  router: Router;
+  path: string;
 
-  constructor(private controller: CarritoControllerInterface) {
+
+  constructor(private controller: CarritoControllerExpressInterface) {
     this.router = Router();
+    this.path = "/Cart";
     this.configureRoutes();
+  }
+  
+  routes(): void {
+    throw new Error("Method not implemented.");
   }
 
   configureRoutes(): Router {

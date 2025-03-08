@@ -8,7 +8,7 @@ export default class ProductService implements ProductServiceInterface {
     }
 
 
-    async deleteProduct(id: number): Promise<void> {
+    async deleteProduct(id: number): Promise<boolean> {
     return this.productRepository.deleteProduct(id);
   }
 
@@ -30,11 +30,11 @@ export default class ProductService implements ProductServiceInterface {
     return product.getDescuento();
   }
 
-  async editProduct(idProduct: number, product: Product): Promise<void> {
-    await this.productRepository.editProduct(idProduct, product);
+  async editProduct(idProduct: number, product: Product): Promise<boolean> {
+    return await this.productRepository.editProduct(idProduct, product);
   }
 
-  async addProduct(product: Product): Promise<void> {
+  async addProduct(product: Product): Promise<boolean> {
     return this.productRepository.createProduct(product);
   }
 

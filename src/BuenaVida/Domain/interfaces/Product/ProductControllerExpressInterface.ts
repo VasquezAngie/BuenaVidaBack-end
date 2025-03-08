@@ -1,10 +1,11 @@
-import Product from "../../Product/Product"
+import ControllerExpressInterface from "../../../../Express/domain/ControllerExpressInterface"
+import { Request, Response } from "express";
 
-export default interface ProductControllerExpressInterface {
+export default interface ProductControllerExpressInterface extends ControllerExpressInterface {
 
-    getAllProducts(): Promise<Product[]>
-    editProduct(id: number, product: Product): Promise<void>
-    deleteProduct(id: number): Promise<void>
+    getAllProducts(req: Request, res: Response): Promise<void>
+    editProduct(req: Request, res: Response): Promise<void>
+    deleteProduct(req: Request, res: Response): Promise<void>
     
 
 }
